@@ -31,7 +31,7 @@ Revisionable is installable via [composer](http://getcomposer.org/doc/00-intro.m
 Add the following to the `require` section of your projects composer.json file:
 
 ```php
-"venturecraft/revisionable": "1.*",
+"cs-revisionable/revisionable": "1.*",
 ```
 
 Run composer update to download the package
@@ -184,6 +184,30 @@ protected $dontKeepRevisionOf = array(
 ```
 
 > The `$keepRevisionOf` setting takes precendence over `$dontKeepRevisionOf`
+
+## Custom Fields
+
+For adding custom fields add $revisionsCustomFields in you model. After that add a function in your model to add the custom fields and their value while creating/updating/deleting:
+
+```php
+protected $revisionsCustomFields;
+```
+
+```php
+public function addRevisionsCustomFields($custom_fields) {
+    $this->revisionsCustomFields = $custom_fields;
+}
+```
+
+Now in your controller file, add fields like this 
+(Example for User)
+```php
+$user->addRevisionsCustomFields([
+            'action' => "Create"
+        ]);
+$user->save();
+```
+
 
 ### Events
 
