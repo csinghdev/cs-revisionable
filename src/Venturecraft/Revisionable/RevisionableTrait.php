@@ -107,10 +107,10 @@ trait RevisionableTrait
     }
 
     /**
-    * Invoked before a model is saved. Return false to abort the operation.
-    *
-    * @return bool
-    */
+     * Invoked before a model is saved. Return false to abort the operation.
+     *
+     * @return bool
+     */
     public function preSave()
     {
         if (!isset($this->revisionEnabled) || $this->revisionEnabled) {
@@ -187,6 +187,14 @@ trait RevisionableTrait
                 );
             }
 
+            if(isset($this->revisionsCustomFields)) {
+                foreach ($revisions as $index => $rev) {
+                    foreach ($this->revisionsCustomFields as $field_name => $field_value) {
+                        $revisions[$index][$field_name] = $field_value;
+                    }
+                }
+            }
+
             if (count($revisions) > 0) {
                 if($LimitReached && $RevisionCleanup){
                     $toDelete = $this->revisionHistory()->orderBy('id','asc')->limit(count($revisions))->get();
@@ -202,8 +210,8 @@ trait RevisionableTrait
     }
 
     /**
-    * Called after record successfully created
-    */
+     * Called after record successfully created
+     */
     public function postCreate()
     {
 
@@ -227,6 +235,14 @@ trait RevisionableTrait
                 'created_at' => new \DateTime(),
                 'updated_at' => new \DateTime(),
             );
+
+            if(isset($this->revisionsCustomFields)) {
+                foreach ($revisions as $index => $rev) {
+                    foreach ($this->revisionsCustomFields as $field_name => $field_value) {
+                        $revisions[$index][$field_name] = $field_value;
+                    }
+                }
+            }
 
             $revision = new Revision;
             \DB::table($revision->getTable())->insert($revisions);
@@ -254,6 +270,15 @@ trait RevisionableTrait
                 'created_at' => new \DateTime(),
                 'updated_at' => new \DateTime(),
             );
+
+            if(isset($this->revisionsCustomFields)) {
+                foreach ($revisions as $index => $rev) {
+                    foreach ($this->revisionsCustomFields as $field_name => $field_value) {
+                        $revisions[$index][$field_name] = $field_value;
+                    }
+                }
+            }
+
             $revision = new \Venturecraft\Revisionable\Revision;
             \DB::table($revision->getTable())->insert($revisions);
             \Event::fire('revisionable.deleted', array('model' => $this, 'revisions' => $revisions));
