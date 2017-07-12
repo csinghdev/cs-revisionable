@@ -26,7 +26,7 @@ Revisionable can also now be used [as a trait](#the-new-trait-based-implementati
 
 ## Installation
 
-Revisionable is installable via [composer](http://getcomposer.org/doc/00-intro.md), the details are on [packagist, here.](https://packagist.org/packages/venturecraft/revisionable)
+Revisionable is installable via [composer](http://getcomposer.org/doc/00-intro.md), the details are on [packagist, here.](https://packagist.org/packages/cs-revisionable/revisionable)
 
 Add the following to the `require` section of your projects composer.json file:
 
